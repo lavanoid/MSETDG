@@ -2,6 +2,7 @@ echo off
 REM Full firmware packs can be downloaded from here: http://www.3dsiso.com/showthread.php?268700-MEGA-CIA-BIN-MSET-4-X-amp-6-X-backups-Browser-backups-Update-packs-(All-Regions)&highlight=msetdg
 REM Script developed by WhoAmI? (Lavanoid)
 REM Don't ever say that I haven't contributed to the scene. Go fuck yourself.
+REM Credit goes to pakrett for supplying the files.
 Title = 3DS Firmware Downloader
 %~d0
 cd %~dp0
