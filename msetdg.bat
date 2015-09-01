@@ -282,7 +282,7 @@ goto region_select
 :Download
 echo.
 echo Downloading file %1 ...
-if not %2=="" (
+if not "%2"=="" (
 	set saveto=%2
 ) else (
 	set saveto="%CD%\%region%\%version%\msetdg.bin"
