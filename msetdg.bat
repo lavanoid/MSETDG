@@ -63,7 +63,8 @@ REM Some fun magic to see if the user even entered an integer value.
 set test=%region%
 set /a test=%test%+1
 set /a test=%test%-1
-echo Wow... Are you an idiot? I told you to enter a number between 1 and 5... 
+echo Wow... Are you an idiot? I told you to enter a number between 1 and 5...
+@echo No, not a decimal, fraction or mixed fraction. HUSH!
 if not "%test%"=="%region%" call :you_are_an_idiot
 goto :download_select
 :mset
@@ -86,6 +87,7 @@ set test=%region%
 set /a test=%test%+1
 set /a test=%test%-1
 echo Wow... Are you an idiot? I told you to enter a number between 1 and 6... 
+@echo No, not a decimal, fraction or mixed fraction. HUSH!
 if not "%test%"=="%region%" call :you_are_an_idiot
 goto :region_select
 :you_are_an_idiot
@@ -119,6 +121,7 @@ set test=%version%
 set /a test=%test%+1
 set /a test=%test%-1
 echo Wow... Are you an idiot? I told you to enter a number between 1 and 2... 
+@echo No, not a decimal, fraction or mixed fraction. HUSH!
 if not "%test%"=="%version%" call :you_are_an_idiot
 goto region_select
 
@@ -149,6 +152,7 @@ set test=%version%
 set /a test=%test%+1
 set /a test=%test%-1
 echo Wow... Are you an idiot? I told you to enter a number between 1 and 2... 
+@echo No, not a decimal, fraction or mixed fraction. HUSH!
 if not "%test%"=="%version%" call :you_are_an_idiot
 goto region_select
 
@@ -180,6 +184,7 @@ set test=%version%
 set /a test=%test%+1
 set /a test=%test%-1
 echo Wow... Are you an idiot? I told you to enter a number between 1 and 2... 
+@echo No, not a decimal, fraction or mixed fraction. HUSH!
 if not "%test%"=="%version%" call :you_are_an_idiot
 goto region_select
 
@@ -213,6 +218,7 @@ set test=%version%
 set /a test=%test%+1
 set /a test=%test%-1
 echo Wow... Are you an idiot? I told you to enter a number between 1 and 2... 
+@echo No, not a decimal, fraction or mixed fraction. HUSH!
 if not "%test%"=="%version%" call :you_are_an_idiot
 goto region_select
 
@@ -244,6 +250,7 @@ set test=%version%
 set /a test=%test%+1
 set /a test=%test%-1
 echo Wow... Are you an idiot? I told you to enter a number between 1 and 2... 
+@echo No, not a decimal, fraction or mixed fraction. HUSH!
 if not "%test%"=="%version%" call :you_are_an_idiot
 goto region_select
 
@@ -276,6 +283,7 @@ set test=%version%
 set /a test=%test%+1
 set /a test=%test%-1
 echo Wow... Are you an idiot? I told you to enter a number between 1 and 2... 
+@echo No, not a decimal, fraction or mixed fraction. HUSH!
 if not "%test%"=="%version%" call :you_are_an_idiot
 goto region_select
 
