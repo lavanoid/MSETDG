@@ -18,46 +18,102 @@ echo 2.) Firm (N3DS)
 echo 3.) Native firm (N3DS, encrypted)
 echo 4.) Native firm (N3DS, decrypted)
 echo 5.) Firm (O3DS)
+echo 6.) Everything
 echo.
 :download_select
 set download=
 set /p download=Download: %=%
 if "%download%"=="1" goto :mset
 if "%download%"=="2" (
-	set region=FIRM N3DS
-	echo Downloading FIRM N3DS
-	Title = Downloading FIRM N3DS...
-	set version=9.5
-	if not exist "%CD%\FIRM\N3DS" mkdir "%CD%\FIRM\N3DS"
-	call :Download "https://dl.dropbox.com/s/xerkf653egaop6s/n3ds_firmware.bin?dl=0" "%CD%\FIRM\N3DS\firmware.bin"
-	goto :EOF
+    set region=FIRM N3DS
+    echo Downloading FIRM N3DS
+    Title = Downloading FIRM N3DS...
+    set version=9.5
+    if not exist "%CD%\FIRM\N3DS" mkdir "%CD%\FIRM\N3DS"
+    call :Download "https://dl.dropbox.com/s/xerkf653egaop6s/n3ds_firmware.bin?dl=0" "%CD%\FIRM\N3DS\firmware.bin"
+    goto :EOF
 )
 if "%download%"=="3" (
-	set region=NATIVE_FIRM N3DS ENC
-	echo Downloading NATIVE_FIRM N3DS ENC
-	Title = Downloading NATIVE_FIRM N3DS ENC...
-	set version=9.5
-	if not exist "%CD%\NATIVE_FIRM\ENC_N3DS" mkdir "%CD%\NATIVE_FIRM\ENC_N3DS"
-	call :Download "https://dl.dropbox.com/s/rphsi6bdg68nhcn/enc_NATIVE_FIRM_n3DS.bin?dl=0" "%CD%\NATIVE_FIRM\ENC_N3DS\firmware.bin"
-	goto :EOF
+    set region=NATIVE_FIRM N3DS ENC
+    echo Downloading NATIVE_FIRM N3DS ENC
+    Title = Downloading NATIVE_FIRM N3DS ENC...
+    set version=9.5
+    if not exist "%CD%\NATIVE_FIRM\ENC_N3DS" mkdir "%CD%\NATIVE_FIRM\ENC_N3DS"
+    call :Download "https://dl.dropbox.com/s/rphsi6bdg68nhcn/enc_NATIVE_FIRM_n3DS.bin?dl=0" "%CD%\NATIVE_FIRM\ENC_N3DS\firmware.bin"
+    goto :EOF
 )
 if "%download%"=="4" (
-	set region=NATIVE_FIRM N3DS DEC
-	echo Downloading NATIVE_FIRM N3DS DEC
-	Title = Downloading NATIVE_FIRM N3DS DEC...
-	set version=9.5
-	if not exist "%CD%\NATIVE_FIRM\DEC_N3DS" mkdir "%CD%\NATIVE_FIRM\DEC_N3DS"
-	call :Download "https://dl.dropbox.com/s/8pmd0731w15kq5d/dec_nativefirm3ds_0004013820000002.bin?dl=0" "%CD%\NATIVE_FIRM\DEC_N3DS\firmware.bin"
-	goto :EOF
+    set region=NATIVE_FIRM N3DS DEC
+    echo Downloading NATIVE_FIRM N3DS DEC
+    Title = Downloading NATIVE_FIRM N3DS DEC...
+    set version=9.5
+    if not exist "%CD%\NATIVE_FIRM\DEC_N3DS" mkdir "%CD%\NATIVE_FIRM\DEC_N3DS"
+    call :Download "https://dl.dropbox.com/s/8pmd0731w15kq5d/dec_nativefirm3ds_0004013820000002.bin?dl=0" "%CD%\NATIVE_FIRM\DEC_N3DS\firmware.bin"
+    goto :EOF
 )
 if "%download%"=="5" (
-	set region=FIRM O3DS
-	echo Downloading FIRM O3DS
-	Title = Downloading FIRM O3DS...
-	set version=?
-	if not exist "%CD%\FIRM\O3DS" mkdir "%CD%\FIRM\O3DS"
-	call :Download "https://dl.dropbox.com/s/fnouysgqrj4mg5o/o3dsfirmware.bin?dl=0" "%CD%\FIRM\O3DS\firmware.bin"
-	goto :EOF
+    set region=FIRM O3DS
+    echo Downloading FIRM O3DS
+    Title = Downloading FIRM O3DS...
+    set version=?
+    if not exist "%CD%\FIRM\O3DS" mkdir "%CD%\FIRM\O3DS"
+    call :Download "https://dl.dropbox.com/s/fnouysgqrj4mg5o/o3dsfirmware.bin?dl=0" "%CD%\FIRM\O3DS\firmware.bin"
+    goto :EOF
+)
+if "%download%"=="6" (
+    set no_end=true
+    set region=Everything
+    echo Downloading all files
+    Title = Downloading all files...
+    set version=?
+    if not exist "%CD%\FIRM\O3DS" mkdir "%CD%\FIRM\O3DS"
+    call :Download "https://dl.dropbox.com/s/fnouysgqrj4mg5o/o3dsfirmware.bin?dl=0" "%CD%\FIRM\O3DS\firmware.bin"
+    set version=9.5
+    if not exist "%CD%\NATIVE_FIRM\DEC_N3DS" mkdir "%CD%\NATIVE_FIRM\DEC_N3DS"
+    call :Download "https://dl.dropbox.com/s/8pmd0731w15kq5d/dec_nativefirm3ds_0004013820000002.bin?dl=0" "%CD%\NATIVE_FIRM\DEC_N3DS\firmware.bin"
+    set version=9.5
+    if not exist "%CD%\NATIVE_FIRM\ENC_N3DS" mkdir "%CD%\NATIVE_FIRM\ENC_N3DS"
+    call :Download "https://dl.dropbox.com/s/rphsi6bdg68nhcn/enc_NATIVE_FIRM_n3DS.bin?dl=0" "%CD%\NATIVE_FIRM\ENC_N3DS\firmware.bin"
+    set version=9.5
+    if not exist "%CD%\FIRM\N3DS" mkdir "%CD%\FIRM\N3DS"
+    call :Download "https://dl.dropbox.com/s/xerkf653egaop6s/n3ds_firmware.bin?dl=0" "%CD%\FIRM\N3DS\firmware.bin"
+    
+    set region=JPN
+    set version=%region% 4.x
+    call :Download "https://dl.dropbox.com/s/8o86h3mnl643zc0/msetdg.bin?dl=0"
+    set version=%region% 6.x
+    call :Download "https://dl.dropbox.com/s/tvytnoqzrpvxwdc/msetdg.bin?dl=0"
+    
+    set region=USA
+    set version=%region% 4.x
+    call :Download "https://dl.dropbox.com/s/0vrhdfvxpb5voh9/msetdg.bin?dl=0"
+    set version=%region% 6.x
+    call :Download "https://dl.dropbox.com/s/gazwh6o5a6dwlw2/msetdg.bin?dl=0"
+    
+    set region=EUR
+    set version=%region% 4.x
+    call :Download "https://dl.dropbox.com/s/1ab4x3citqylty0/msetdg.bin?dl=0"
+    set version=%region% 6.x
+    call :Download "https://dl.dropbox.com/s/yxqpdvfr6rfncjb/msetdg.bin?dl=0"
+    
+    set region=CHN
+    set version=%region% 4.x
+    call :Download "https://dl.dropbox.com/s/mslumpknhs157cc/msetdg.bin?dl=0"
+    set version=%region% 6.x
+    echo Sorry but I don't have this file :/ PM me it and it'll be added.
+    
+    set region=KOR
+    set version=%region% 4.x
+    call :Download "https://dl.dropbox.com/s/uqpyjdjk9ia25ve/msetdg.bin?dl=0"
+    set version=%region% 6.x
+    call :Download "https://dl.dropbox.com/s/rqzm5s33tvg8huw/msetdg.bin?dl=0"
+    set region=TWN
+    set version=%region% 4.x
+    call :Download "https://dl.dropbox.com/s/rf2nrguo74aie5o/msetdg.bin?dl=0"
+    set version=%region% 6.x
+    set no_end=false
+    echo Sorry but I don't have this file :/ PM me it and it'll be added.
+    goto :EOF
 )
 REM Some fun magic to see if the user even entered an integer value.
 set test=%region%
@@ -104,18 +160,18 @@ echo.
 set version=
 set /p version=Version: %=%
 if "%version%"=="1" (
-	echo Downloading JPN 4.X...
-	Title = Downloading MSET: JPN 4.X...
-	set version=%region% 4.x
-	call :Download "https://dl.dropbox.com/s/8o86h3mnl643zc0/msetdg.bin?dl=0"
-	goto :EOF
+    echo Downloading JPN 4.X...
+    Title = Downloading MSET: JPN 4.X...
+    set version=%region% 4.x
+    call :Download "https://dl.dropbox.com/s/8o86h3mnl643zc0/msetdg.bin?dl=0"
+    goto :EOF
 )
 if "%version%"=="2" (
-	echo Downloading JPN 6.X...
-	Title = Downloading MSET: JPN 6.X...
-	set version=%region% 6.x
-	call :Download "https://dl.dropbox.com/s/tvytnoqzrpvxwdc/msetdg.bin?dl=0"
-	goto :EOF
+    echo Downloading JPN 6.X...
+    Title = Downloading MSET: JPN 6.X...
+    set version=%region% 6.x
+    call :Download "https://dl.dropbox.com/s/tvytnoqzrpvxwdc/msetdg.bin?dl=0"
+    goto :EOF
 )
 set test=%version%
 set /a test=%test%+1
@@ -135,18 +191,18 @@ echo.
 set version=
 set /p version=Version: %=%
 if "%version%"=="1" (
-	echo Downloading USA 4.X...
-	Title = Downloading MSET: USA 4.X...
-	set version=%region% 4.x
-	call :Download "https://dl.dropbox.com/s/0vrhdfvxpb5voh9/msetdg.bin?dl=0"
-	goto :EOF
+    echo Downloading USA 4.X...
+    Title = Downloading MSET: USA 4.X...
+    set version=%region% 4.x
+    call :Download "https://dl.dropbox.com/s/0vrhdfvxpb5voh9/msetdg.bin?dl=0"
+    goto :EOF
 )
 if "%version%"=="2" (
-	echo Downloading USA 6.X...
-	Title = Downloading MSET: USA 6.X...
-	set version=%region% 6.x
-	call :Download "https://dl.dropbox.com/s/gazwh6o5a6dwlw2/msetdg.bin?dl=0"
-	goto :EOF
+    echo Downloading USA 6.X...
+    Title = Downloading MSET: USA 6.X...
+    set version=%region% 6.x
+    call :Download "https://dl.dropbox.com/s/gazwh6o5a6dwlw2/msetdg.bin?dl=0"
+    goto :EOF
 )
 set test=%version%
 set /a test=%test%+1
@@ -167,18 +223,18 @@ echo.
 set version=
 set /p version=Version: %=%
 if "%version%"=="1" (
-	echo Downloading EUR 4.X...
-	Title = Downloading MSET: EUR 4.X...
-	set version=%region% 4.x
-	call :Download "https://dl.dropbox.com/s/1ab4x3citqylty0/msetdg.bin?dl=0"
-	goto :EOF
+    echo Downloading EUR 4.X...
+    Title = Downloading MSET: EUR 4.X...
+    set version=%region% 4.x
+    call :Download "https://dl.dropbox.com/s/1ab4x3citqylty0/msetdg.bin?dl=0"
+    goto :EOF
 )
 if "%version%"=="2" (
-	echo Downloading EUR 6.X...
-	Title = Downloading MSET: EUR 6.X...
-	set version=%region% 6.x
-	call :Download "https://dl.dropbox.com/s/yxqpdvfr6rfncjb/msetdg.bin?dl=0"
-	goto :EOF
+    echo Downloading EUR 6.X...
+    Title = Downloading MSET: EUR 6.X...
+    set version=%region% 6.x
+    call :Download "https://dl.dropbox.com/s/yxqpdvfr6rfncjb/msetdg.bin?dl=0"
+    goto :EOF
 )
 set test=%version%
 set /a test=%test%+1
@@ -187,8 +243,6 @@ echo Wow... Are you an idiot? I told you to enter a number between 1 and 2...
 @echo No, not a decimal, fraction or mixed fraction. HUSH!
 if not "%test%"=="%version%" call :you_are_an_idiot
 goto region_select
-
-
 :CHN
 set region=CHN
 echo.
@@ -199,20 +253,20 @@ echo.
 set version=
 set /p version=Version: %=%
 if "%version%"=="1" (
-	echo Downloading CHN 4.X...
-	Title = Downloading MSET: CHN 4.X...
-	set version=%region% 4.x
-	call :Download "https://dl.dropbox.com/s/mslumpknhs157cc/msetdg.bin?dl=0"
-	goto :EOF
+    echo Downloading CHN 4.X...
+    Title = Downloading MSET: CHN 4.X...
+    set version=%region% 4.x
+    call :Download "https://dl.dropbox.com/s/mslumpknhs157cc/msetdg.bin?dl=0"
+    goto :EOF
 )
 if "%version%"=="2" (
-	echo Downloading CHN 6.X...
-	Title = Downloading MSET: CHN 6.X...
-	set version=%region% 6.x
-	echo Sorry but I don't have this file :/ PM me it and it'll be added.
-	pause
-	REM call :Download "http:/blahblah"
-	goto :EOF
+    echo Downloading CHN 6.X...
+    Title = Downloading MSET: CHN 6.X...
+    set version=%region% 6.x
+    echo Sorry but I don't have this file :/ PM me it and it'll be added.
+    pause
+    REM call :Download "http:/blahblah"
+    goto :EOF
 )
 set test=%version%
 set /a test=%test%+1
@@ -233,18 +287,18 @@ echo.
 set version=
 set /p version=Version: %=%
 if "%version%"=="1" (
-	echo Downloading KOR 4.X...
-	Title = Downloading MSET: KOR 4.X...
-	set version=%region% 4.x
-	call :Download "https://dl.dropbox.com/s/uqpyjdjk9ia25ve/msetdg.bin?dl=0"
-	goto :EOF
+    echo Downloading KOR 4.X...
+    Title = Downloading MSET: KOR 4.X...
+    set version=%region% 4.x
+    call :Download "https://dl.dropbox.com/s/uqpyjdjk9ia25ve/msetdg.bin?dl=0"
+    goto :EOF
 )
 if "%version%"=="2" (
-	echo Downloading KOR 6.X...
-	Title = Downloading MSET: KOR 6.X...
-	set version=%region% 6.x
-	call :Download "https://dl.dropbox.com/s/rqzm5s33tvg8huw/msetdg.bin?dl=0"
-	goto :EOF
+    echo Downloading KOR 6.X...
+    Title = Downloading MSET: KOR 6.X...
+    set version=%region% 6.x
+    call :Download "https://dl.dropbox.com/s/rqzm5s33tvg8huw/msetdg.bin?dl=0"
+    goto :EOF
 )
 set test=%version%
 set /a test=%test%+1
@@ -264,20 +318,20 @@ echo.
 set version=
 set /p version=Version: %=%
 if "%version%"=="1" (
-	echo Downloading TWN 4.X...
-	Title = Downloading MSET: TWN 4.X...
-	set version=%region% 4.x
-	call :Download "https://dl.dropbox.com/s/rf2nrguo74aie5o/msetdg.bin?dl=0"
-	goto :EOF
+    echo Downloading TWN 4.X...
+    Title = Downloading MSET: TWN 4.X...
+    set version=%region% 4.x
+    call :Download "https://dl.dropbox.com/s/rf2nrguo74aie5o/msetdg.bin?dl=0"
+    goto :EOF
 )
 if "%version%"=="2" (
-	echo Downloading TWN 6.X...
-	Title = Downloading MSET: TWN 6.X...
-	set version=%region% 6.x
-	echo Sorry but I don't have this file :/ PM me it and it'll be added.
-	pause
-	REM call :Download "http:/blahblah"
-	goto :EOF
+    echo Downloading TWN 6.X...
+    Title = Downloading MSET: TWN 6.X...
+    set version=%region% 6.x
+    echo Sorry but I don't have this file :/ PM me it and it'll be added.
+    pause
+    REM call :Download "http:/blahblah"
+    goto :EOF
 )
 set test=%version%
 set /a test=%test%+1
@@ -291,13 +345,15 @@ goto region_select
 echo.
 echo Downloading file %1 ...
 if not "%2"=="" (
-	set saveto=%2
+    set saveto=%2
 ) else (
-	set saveto="%CD%\%region%\%version%\msetdg.bin"
-	if not exist "%CD%\%region%\%version%" mkdir "%CD%\%region%\%version%"
+    set saveto="%CD%\%region%\%version%\msetdg.bin"
+    if not exist "%CD%\%region%\%version%" mkdir "%CD%\%region%\%version%"
 )
 
 bitsadmin /transfer "Package: %region% %version%" /download /priority high %1 %saveto%
 echo File saved as: %saveto%
-echo Done! Press any key to exit.
-pause >nul
+if not "%no_end%"=="true" (
+    echo Done! Press any key to exit.
+    pause >nul
+)
