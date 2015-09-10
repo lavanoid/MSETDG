@@ -22,8 +22,22 @@ then
 	downloading="Downloading"
 	which="Which version?"
 	unavailable="File unavailable."
-	region="Which is your region?"
+	region="Which region?"
 	voice="english_rp"
+	accent=$(zenity --list --title "MSET Zenity" --text 🗪 --column "" --width 280 --height 241 "Received Pronunciation (standard)" "Norhten England" Scotland "United States" "West Indies" "West Midlands")
+	if [ "$accent" == "Received Pronunciation (standard)" ]; then
+		accent="Received Pronunciation"
+	elif [ "$accent" == "Norhten England" ]; then
+		voice="en-uk-north"
+	elif [ "$accent" == Scotland ]; then
+		voice="en-sc"
+	elif [ "$accent" == "United States" ]; then
+		voice="en-us"
+	elif [ "$accent" == "West Indies" ]; then
+		voice="en-wi"
+	elif [ "$accent" == "West Midlands" ]; then
+		voice="en-uk-wmids"
+	fi
 elif [ $lang == Español ]
 then
 	whattodownload="¿Qué quiere descargar?"
@@ -34,6 +48,10 @@ then
 	unavailable="Archivo no disponible."
 	region="¿Cuál es su región?"
 	voice="spanish"
+	accent=$(zenity --list --title "MSET Zenity" --text 🗪 --column "" --width 280 --height 241 "America latina" España)
+	if [ "$accent" == "America latina" ]; then
+		voice="es-la"
+	fi
 elif [ $lang == Français ]
 then
 
@@ -45,6 +63,10 @@ then
 	unavailable="Fichier indisponible."
 	region="Quelle est votre région ?"
 	voice="french"
+	accent=$(zenity --list --title "MSET Zenity" --text 🗪 --column "" --width 280 --height 241 Belgique France)
+	if [ "$accent" == Belgique ]; then
+		voice="fr-be"
+	fi
 elif [ $lang == Italiano ]
 then
 	whattodownload="Cosa scaricare?"
@@ -66,10 +88,15 @@ then
 	unavailable="Arquivo não disponível."
 	region="Qual é a sua região?"
 	voice="portugal"
+	accent=$(zenity --list --title "MSET Zenity" --text 🗪 --column "" --width 280 --height 241 Brasil Portugal)
+	if [ "$accent" == Brasil ]; then
+		voice="brazil"
+	fi
 else
 	exit 1
 fi
-espeak "$lang" -v "$voice"
+echo $voice
+espeak "$lang, $accent" -v "$voice"
 
 espeak "$whattodownload" -v "$voice" &
 a_whattodownload=$(zenity --list --title "MSET Zenity" --text "$whattodownload" --column "" --height 221 --width 300 MSET "FIRM (N3DS)" "FIRM (O3DS)" "NATIVE_FIRM (N3DS, $encrypted)" "NATIVE_FIRM (N3DS, $decrypted)")
