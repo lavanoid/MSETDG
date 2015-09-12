@@ -155,7 +155,7 @@ set region=JPN
 echo.
 echo What version do you want? (1-2)
 echo.
-echo 1.) 4.x   2.) 6.x (recommended for 2DS users)
+echo 1.) 4.x   2.) 6.x (2DS Users USE THIS OPTION!)
 echo.
 set version=
 set /p version=Version: %=%
@@ -186,7 +186,7 @@ set region=USA
 echo.
 echo What version do you want? (1-2)
 echo.
-echo 1.) 4.x   2.) 6.x (recommended for 2DS users)
+echo 1.) 4.x   2.) 6.x (2DS Users USE THIS OPTION!)
 echo.
 set version=
 set /p version=Version: %=%
@@ -218,7 +218,7 @@ set region=EUR
 echo.
 echo What version do you want? (1-2)
 echo.
-echo 1.) 4.x   2.) 6.x (recommended for 2DS users)
+echo 1.) 4.x   2.) 6.x (2DS Users USE THIS OPTION!)
 echo.
 set version=
 set /p version=Version: %=%
@@ -248,7 +248,7 @@ set region=CHN
 echo.
 echo What version do you want? (1-2)
 echo.
-echo 1.) 4.x   2.) 6.x (recommended for 2DS users)
+echo 1.) 4.x   2.) 6.x (2DS Users USE THIS OPTION!)
 echo.
 set version=
 set /p version=Version: %=%
@@ -282,7 +282,7 @@ set region=KOR
 echo.
 echo What version do you want? (1-2)
 echo.
-echo 1.) 4.x   2.) 6.x
+echo 1.) 4.x   2.) 6.x (2DS Users USE THIS OPTION!)
 echo.
 set version=
 set /p version=Version: %=%
@@ -313,7 +313,7 @@ set region=TWN
 echo.
 echo What version do you want? (1-2)
 echo.
-echo 1.) 4.x   2.) 6.x (recommended for 2DS users)
+echo 1.) 4.x   2.) 6.x (2DS Users USE THIS OPTION!)
 echo.
 set version=
 set /p version=Version: %=%
