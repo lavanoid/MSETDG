@@ -1,242 +1,359 @@
-@echo off
+echo off
+REM Full firmware packs can be downloaded from here: http://www.3dsiso.com/showthread.php?268700-MEGA-CIA-BIN-MSET-4-X-amp-6-X-backups-Browser-backups-Update-packs-(All-Regions)&highlight=msetdg
+REM Script developed by WhoAmI? (Lavanoid)
+REM Don't ever say that I haven't contributed to the scene. Go fuck yourself.
+REM Credit goes to pakrett for supplying the files.
+Title = 3DS Firmware Downloader
 %~d0
 cd %~dp0
-Title = Environment installer
-REM ##################### ADMIN STUFF #####################
-if exist "elevate.vbs" del /f "elevate.vbs"
-echo Hang on a sec... Checking priviledges...
-mkdir "%SystemRoot%\AdminAccessCheck" 2>nul
-if not exist "%SystemRoot%\AdminAccessCheck" goto :admin
-RD /S /Q "%SystemRoot%\AdminAccessCheck"
-REM ##################### BACKUP #####################
-if not exist "%appdata%\rxToolsBuildKit\backups" mkdir "%appdata%\rxToolsBuildKit\backups"
-if not exist "%appdata%\rxToolsBuildKit\backups\userenv.reg" (
-  echo [BACKUP] Backing up user environment...
-  reg export "HKEY_CURRENT_USER\Environment" "%appdata%\rxToolsBuildKit\backups\userenv.reg"
-)
-if not exist "%appdata%\rxToolsBuildKit\backups\systemenv.reg" (
-  echo [BACKUP] Backing up system environment...
-  reg export "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment" "%appdata%\rxToolsBuildKit\backups\systemenv.reg"
-)
-if not exist "%appdata%\rxToolsBuildKit\backups\userenv.reg" (
-  echo Failed to create a backup of the user environment.
-  echo Cannot install.
-  color c
-  goto :endpause
-)
-if not exist "%appdata%\rxToolsBuildKit\backups\systemenv.reg" (
-  echo Failed to create a backup of the system environment.
-  echo Cannot install.
-  color c
-  goto :endpause
-)
-REM ##################### CREATE DIRECTORYS #####################
-if not exist "%appdata%\rxToolsBuildKit\downloads" mkdir "%appdata%\rxToolsBuildKit\downloads"
-if not exist "%appdata%\rxToolsBuildKit\downloads" (
-  echo WOW! WWWOOOWW!! D: I couldn't make a directory!
-  echo Have you been wanking on your computer?
-  echo Cannot install.
-  color c
-  goto :endpause
-)
-cls
-REM ##################### DOWNLOAD STUFF #####################
-echo [STAT] Shit backed up.
-bitsadmin /transfer "Package: wget" /download /priority high "https://dl.dropbox.com/s/2p4lzq1itlsajyd/wget.exe" "%appdata%\rxToolsBuildKit\downloads\wget.exe"
-echo [DOWNLOAD] Python2
-"%appdata%\rxToolsBuildKit\downloads\wget.exe" "https://www.python.org/ftp/python/2.7.10/python-2.7.10.msi" -O "%appdata%\rxToolsBuildKit\downloads\python-2.7.10.msi"
-Title = Environment installer
-if not exist "%appdata%\rxToolsBuildKit\downloads\python-2.7.10.msi" (
-  echo **ERROR** I can't find python. What the fuck happened? 0_o
-  echo Cannot install.
-  color c
-  goto :endpause
-)
-echo [DOWNLOAD] DevkitPro
-"%appdata%\rxToolsBuildKit\downloads\wget.exe" "https://dl.dropbox.com/s/m8qv4vy6bddhten/devkitProUpdater-1.5.4.exe" -O "%appdata%\rxToolsBuildKit\downloads\devkitProUpdater-1.5.4.exe"
-Title = Environment installer
-if not exist "%appdata%\rxToolsBuildKit\downloads\devkitProUpdater-1.5.4.exe" (
-  echo.
-  echo **ERROR** devkitPro must have taken a dump because I can't find it.
-  echo Cannot install.
-  color c
-  goto :endpause
-)
-echo [DOWNLOAD] ImageMagick Portable x86
-"%appdata%\rxToolsBuildKit\downloads\wget.exe" "https://dl.dropbox.com/s/hl6w7oovhs0s8nm/ImageMagick-6.9.2-3-portable-Q16-x86.zip" -O "%appdata%\rxToolsBuildKit\downloads\ImageMagick-6.9.2-3-portable-Q16-x86.zip"
-if not exist "%appdata%\rxToolsBuildKit\downloads\ImageMagick-6.9.2-3-portable-Q16-x86.zip" (
-  echo.
-  echo **ERROR** I can't find "%appdata%\rxToolsBuildKit\downloads\ImageMagick-6.9.2-3-portable-Q16-x86.zip" :/
-  echo Cannot install.
-  color c
-  goto :endpause
-)
-echo [DOWNLOAD] armips
-"%appdata%\rxToolsBuildKit\downloads\wget.exe" "https://dl.dropbox.com/s/nhq0shjbxlayyp8/armips.exe" -O "%appdata%\rxToolsBuildKit\downloads\armips.exe"
-if not exist "%appdata%\rxToolsBuildKit\downloads\armips.exe" (
-  echo.
-  echo **ERROR** I can't find "%appdata%\rxToolsBuildKit\downloads\armips.exe" :/
-  echo Cannot install.
-  color c
-  goto :endpause
-)
-echo [DOWNLOAD] MinGW
-"%appdata%\rxToolsBuildKit\downloads\wget.exe" "https://dl.dropbox.com/s/8n4ou1yc3c1hfgo/mingw.zip" -O "%appdata%\rxToolsBuildKit\downloads\mingw.zip"
-if not exist "%appdata%\rxToolsBuildKit\downloads\mingw.zip" (
-  echo.
-  echo **ERROR** I can't find "%appdata%\rxToolsBuildKit\downloads\mingw.zip" :/
-  echo Cannot install.
-  color c
-  goto :endpause
-)
-echo [DOWNLOAD] 7-zip command line
-"%appdata%\rxToolsBuildKit\downloads\wget.exe" "https://dl.dropbox.com/s/49fdd3oyi1e1qse/7za.exe" -O "%appdata%\rxToolsBuildKit\downloads\7za.exe"
-if not exist "%appdata%\rxToolsBuildKit\downloads\7za.exe" (
-  echo.
-  echo **ERROR** I can't find "%appdata%\rxToolsBuildKit\downloads\7za.exe" :/
-  echo Cannot install.
-  color c
-  goto :endpause
-)
-echo [DOWNLOAD] Git portable
-"%appdata%\rxToolsBuildKit\downloads\wget.exe" "https://dl.dropbox.com/s/06gvvz7s64o9pcq/PortableGit.zip" -O "%appdata%\rxToolsBuildKit\downloads\PortableGit.zip"
-if not exist "%appdata%\rxToolsBuildKit\downloads\PortableGit.zip" (
-  echo.
-  echo **ERROR** I can't find "%appdata%\rxToolsBuildKit\downloads\PortableGit.zip" :/
-  echo Cannot install.
-  color c
-  goto :endpause
-)
-Title = Environment installer
-REM ##################### INSTALL STUFF #####################
-echo [STAT] Python2 - Installing your shit...
-explorer "%appdata%\rxToolsBuildKit\downloads\python-2.7.10.msi"
-echo #####################
-color B
-echo Where did you install python to? Leave blank for the default
-echo ^(%SystemDrive%\Python27^)
-set /p py=Path: %=%
-color 7
-if "%py%"=="" (
-  echo Using default directory.
-  set py=%SystemDrive%\Python27
-)
-echo [STAT] DevkitPro - Installing that shit... One sec.
-echo        Just select all installation optionsand you're good.
-explorer "%appdata%\rxToolsBuildKit\downloads\devkitProUpdater-1.5.4.exe"
-echo #####################
-color B
-echo [STAT] M'kay, now where did you install DevkitPro? Leave blank for default
-echo ^(%SystemDrive%\devkitPro^)
-set /p dkp=Path: %=%
-color 7
-if "%dkp%"=="" (
-  echo Using default directory.
-  set dkp=%SystemDrive%\devkitPro
-)
-Title = Environment installer - Extracting MinGW
-echo [STAT] Extracting MinGW
-if exist "%TEMP%\MinGW" RD /S /Q "%TEMP%\MinGW"
-mkdir "%TEMP%\MinGW"
-"%appdata%\rxToolsBuildKit\downloads\7za.exe" -y e "%appdata%\rxToolsBuildKit\downloads\mingw.zip" -o"%TEMP%\MinGW" -r
-if not exist "%TEMP%\MinGW" (
-  echo [ERROR] I can't find "%TEMP%\MinGW" :/
-  echo Cannot install.
-  color c
-  goto :endpause
-)
-Title = Environment installer - Extracting PortableGit
-echo [STAT] Extracting PortableGit
-if exist "%TEMP%\PortableGit" RD /S /Q "%TEMP%\PortableGit"
-mkdir "%TEMP%\PortableGit"
-"%appdata%\rxToolsBuildKit\downloads\7za.exe" -y e "%appdata%\rxToolsBuildKit\downloads\PortableGit.zip" -o"%TEMP%\PortableGit" -r
-if not exist "%TEMP%\PortableGit" (
-  echo [ERROR] I can't find "%TEMP%\PortableGit" :/
-  echo Cannot install.
-  color c
-  goto :endpause
-)
-Title = Environment installer - Extracting ImageMagick
-echo [STAT] Extracting ImageMagick Portable x86
-if exist "%TEMP%\ImageMagick-6.9.2-3-portable-Q16-x86" RD /S /Q "%TEMP%\ImageMagick-6.9.2-3-portable-Q16-x86"
-mkdir "%TEMP%\ImageMagick-6.9.2-3-portable-Q16-x86"
-"%appdata%\rxToolsBuildKit\downloads\7za.exe" -y e "%appdata%\rxToolsBuildKit\downloads\ImageMagick-6.9.2-3-portable-Q16-x86.zip" -o"%TEMP%\ImageMagick-6.9.2-3-portable-Q16-x86" -r
-if not exist "%TEMP%\ImageMagick-6.9.2-3-portable-Q16-x86" (
-  echo [ERROR] I can't find "%TEMP%\ImageMagick-6.9.2-3-portable-Q16-x86" :/
-  echo Cannot install.
-  color c
-  goto :endpause
-)
-Title = Environment installer - Install
-echo [STAT] Moving Github portable to the root of the %SystemDrive% drive...
-mkdir "%SystemDrive%\PortableGit"
-move /Y "%TEMP%\PortableGit\*" "%SystemDrive%\PortableGit"
-if not exist "%SystemDrive%\PortableGit" (
-   echo [ERROR] WOAH! Something happened! I couldn't move the crap over! D:
-   echo Cannot install.
-   color c
-   goto :endpause
-)
-echo [STAT] Moving MinGW to the root of the %SystemDrive% drive...
-mkdir "%SystemDrive%\MinGW"
-move /Y "%TEMP%\MinGW\*" "%SystemDrive%\MinGW"
-if not exist "%SystemDrive%\MinGW" (
-  echo.
-  echo [ERROR] Woah, what the hell happened? Windows: That's what happned.
-  echo Looks like the copy failed. That sucks.
-  echo Cannot install.
-  color c
-  goto :endpause
-)
-echo [STAT] Moving ImageMagick Portable x86 to the root of the %SystemDrive% drive...
-mkdir "%SystemDrive%\ImageMagick-6.9.2-3-portable-Q16-x86"
-move /Y "%TEMP%\ImageMagick-6.9.2-3-portable-Q16-x86\*" "%SystemDrive%\ImageMagick-6.9.2-3-portable-Q16-x86"
-if not exist "%SystemDrive%\ImageMagick-6.9.2-3-portable-Q16-x86" (
-  echo.
-  echo [ERROR] Woah, what the hell happened? Windows: That's what happned.
-  echo Looks like the copy failed. That sucks.
-  echo Cannot install.
-  color c
-  goto :endpause
-)
-echo [STAT] Installing ARMIPS....
-cd %dkp%
-move /y "%appdata%\rxToolsBuildKit\downloads\armips.exe" "%CD%\msys\bin\"
-if not exist "%CD%\msys\bin\armips.exe" echo Failed to install ARMIPS. Skipping.
-%~d0
-cd %~dp0
-echo Okay, I think that's everything. Now to rape your registry.
-echo Writing system path variable...
-setx /m PATH "%dkp%\msys\bin;%SystemDrive%\ImageMagick-6.9.2-3-portable-Q16-x86;%dkp%\devkitARM\bin;%SystemDrive%\MinGW\bin;%SystemRoot%\system32;%SystemRoot%;%SystemRoot%\System32\Wbem;%SYSTEMROOT%\System32\WindowsPowerShell\v1.0\;%py%;%SystemDrive%\PortableGit\bin"
-echo Erasing user path variable...
-setx PATH ""
 echo.
-echo Okay, so now your registry has digital cum added to it (That's a good thing).
+echo Firmware downloader.
 echo.
-echo Just a little bit moreeeee....
-setx /m PATHEXT "%PATHEXT%;.PY"
+echo CD: %CD%
 echo.
-echo AAAhh. Thats it! :D 8=====D
-color A
+echo What do you want to download? (1-5)
 echo.
-Title = Environment installer - Done
-echo Done! Everything was a success (I hope)!
-echo So now you just run "Build_rxTools.bat" :D
-goto :endpause
-:admin
-if "%1"=="admin" (
-  echo Seems like you don't have the appropriate priviledges.
-  echo Oh well. Go ask mommy to be an admin.
-  goto :endpause
+echo 1.) MSET (Settings application)
+echo 2.) Firm (N3DS)
+echo 3.) Native firm (N3DS, encrypted)
+echo 4.) Native firm (N3DS, decrypted)
+echo 5.) Firm (O3DS)
+echo 6.) Everything
+echo.
+:download_select
+set download=
+set /p download=Download: %=%
+if "%download%"=="1" goto :mset
+if "%download%"=="2" (
+    set region=FIRM N3DS
+    echo Downloading FIRM N3DS
+    Title = Downloading FIRM N3DS...
+    set version=9.5
+    if not exist "%CD%\FIRM\N3DS" mkdir "%CD%\FIRM\N3DS"
+    call :Download "https://dl.dropbox.com/s/xerkf653egaop6s/n3ds_firmware.bin?dl=0" "%CD%\FIRM\N3DS\firmware.bin"
+    goto :EOF
 )
-echo Gaining elevated access via UAC...
-set THISPROGRAM=%0
-set THISPROGRAM=%THISPROGRAM:"=%
-set THISPROGRAM="%THISPROGRAM%"
-@echo Set UAC = CreateObject("Shell.Application")> "elevate.vbs"
-@echo Set args = WScript.Arguments>> "elevate.vbs"
-@echo UAC.ShellExecute %THISPROGRAM%, "admin", "", "runas", 1 >> "elevate.vbs"
-wscript "elevate.vbs" >>nul
-exit
-:endpause
-pause
+if "%download%"=="3" (
+    set region=NATIVE_FIRM N3DS ENC
+    echo Downloading NATIVE_FIRM N3DS ENC
+    Title = Downloading NATIVE_FIRM N3DS ENC...
+    set version=9.5
+    if not exist "%CD%\NATIVE_FIRM\ENC_N3DS" mkdir "%CD%\NATIVE_FIRM\ENC_N3DS"
+    call :Download "https://dl.dropbox.com/s/rphsi6bdg68nhcn/enc_NATIVE_FIRM_n3DS.bin?dl=0" "%CD%\NATIVE_FIRM\ENC_N3DS\firmware.bin"
+    goto :EOF
+)
+if "%download%"=="4" (
+    set region=NATIVE_FIRM N3DS DEC
+    echo Downloading NATIVE_FIRM N3DS DEC
+    Title = Downloading NATIVE_FIRM N3DS DEC...
+    set version=9.5
+    if not exist "%CD%\NATIVE_FIRM\DEC_N3DS" mkdir "%CD%\NATIVE_FIRM\DEC_N3DS"
+    call :Download "https://dl.dropbox.com/s/8pmd0731w15kq5d/dec_nativefirm3ds_0004013820000002.bin?dl=0" "%CD%\NATIVE_FIRM\DEC_N3DS\firmware.bin"
+    goto :EOF
+)
+if "%download%"=="5" (
+    set region=FIRM O3DS
+    echo Downloading FIRM O3DS
+    Title = Downloading FIRM O3DS...
+    set version=?
+    if not exist "%CD%\FIRM\O3DS" mkdir "%CD%\FIRM\O3DS"
+    call :Download "https://dl.dropbox.com/s/fnouysgqrj4mg5o/o3dsfirmware.bin?dl=0" "%CD%\FIRM\O3DS\firmware.bin"
+    goto :EOF
+)
+if "%download%"=="6" (
+    set no_end=true
+    set region=Everything
+    echo Downloading all files
+    Title = Downloading all files...
+    set version=?
+    if not exist "%CD%\FIRM\O3DS" mkdir "%CD%\FIRM\O3DS"
+    call :Download "https://dl.dropbox.com/s/fnouysgqrj4mg5o/o3dsfirmware.bin?dl=0" "%CD%\FIRM\O3DS\firmware.bin"
+    set version=9.5
+    if not exist "%CD%\NATIVE_FIRM\DEC_N3DS" mkdir "%CD%\NATIVE_FIRM\DEC_N3DS"
+    call :Download "https://dl.dropbox.com/s/8pmd0731w15kq5d/dec_nativefirm3ds_0004013820000002.bin?dl=0" "%CD%\NATIVE_FIRM\DEC_N3DS\firmware.bin"
+    set version=9.5
+    if not exist "%CD%\NATIVE_FIRM\ENC_N3DS" mkdir "%CD%\NATIVE_FIRM\ENC_N3DS"
+    call :Download "https://dl.dropbox.com/s/rphsi6bdg68nhcn/enc_NATIVE_FIRM_n3DS.bin?dl=0" "%CD%\NATIVE_FIRM\ENC_N3DS\firmware.bin"
+    set version=9.5
+    if not exist "%CD%\FIRM\N3DS" mkdir "%CD%\FIRM\N3DS"
+    call :Download "https://dl.dropbox.com/s/xerkf653egaop6s/n3ds_firmware.bin?dl=0" "%CD%\FIRM\N3DS\firmware.bin"
+    
+    set region=JPN
+    set version=%region% 4.x
+    call :Download "https://dl.dropbox.com/s/8o86h3mnl643zc0/msetdg.bin?dl=0"
+    set version=%region% 6.x
+    call :Download "https://dl.dropbox.com/s/tvytnoqzrpvxwdc/msetdg.bin?dl=0"
+    
+    set region=USA
+    set version=%region% 4.x
+    call :Download "https://dl.dropbox.com/s/0vrhdfvxpb5voh9/msetdg.bin?dl=0"
+    set version=%region% 6.x
+    call :Download "https://dl.dropbox.com/s/gazwh6o5a6dwlw2/msetdg.bin?dl=0"
+    
+    set region=EUR
+    set version=%region% 4.x
+    call :Download "https://dl.dropbox.com/s/1ab4x3citqylty0/msetdg.bin?dl=0"
+    set version=%region% 6.x
+    call :Download "https://dl.dropbox.com/s/yxqpdvfr6rfncjb/msetdg.bin?dl=0"
+    
+    set region=CHN
+    set version=%region% 4.x
+    call :Download "https://dl.dropbox.com/s/mslumpknhs157cc/msetdg.bin?dl=0"
+    set version=%region% 6.x
+    echo Sorry but I don't have this file :/ PM me it and it'll be added.
+    
+    set region=KOR
+    set version=%region% 4.x
+    call :Download "https://dl.dropbox.com/s/uqpyjdjk9ia25ve/msetdg.bin?dl=0"
+    set version=%region% 6.x
+    call :Download "https://dl.dropbox.com/s/rqzm5s33tvg8huw/msetdg.bin?dl=0"
+    set region=TWN
+    set version=%region% 4.x
+    call :Download "https://dl.dropbox.com/s/rf2nrguo74aie5o/msetdg.bin?dl=0"
+    set version=%region% 6.x
+    set no_end=false
+    echo Sorry but I don't have this file :/ PM me it and it'll be added.
+    goto :EOF
+)
+REM Some fun magic to see if the user even entered an integer value.
+set test=%region%
+set /a test=%test%+1
+set /a test=%test%-1
+echo Wow... Are you an idiot? I told you to enter a number between 1 and 5...
+@echo No, not a decimal, fraction or mixed fraction. HUSH!
+if not "%test%"=="%region%" call :you_are_an_idiot
+goto :download_select
+:mset
+echo What is your region? (1-6)
+echo.
+echo 1.) JPN   2.) USA   3.) EUR
+echo 4.) CHN   5.) KOR   6.) TWN
+echo.
+:region_select
+set region=
+set /p region=Region: %=%
+if "%region%"=="1" goto :JPN
+if "%region%"=="2" goto :USA
+if "%region%"=="3" goto :EUR
+if "%region%"=="4" goto :CHN
+if "%region%"=="5" goto :KOR
+if "%region%"=="6" goto :TWN
+REM Some fun magic to see if the user even entered an integer value.
+set test=%region%
+set /a test=%test%+1
+set /a test=%test%-1
+echo Wow... Are you an idiot? I told you to enter a number between 1 and 6... 
+@echo No, not a decimal, fraction or mixed fraction. HUSH!
+if not "%test%"=="%region%" call :you_are_an_idiot
+goto :region_select
+:you_are_an_idiot
+echo You didn't even enter a number, what the fuck?
+Title = 3DS Firmware Downloader (you're an idiot)
+goto :EOF
+:JPN
+set region=JPN
+echo.
+echo What version do you want? (1-2)
+echo.
+echo 1.) 4.x   2.) 6.x (2DS Users USE THIS OPTION!)
+echo.
+set version=
+set /p version=Version: %=%
+if "%version%"=="1" (
+    echo Downloading JPN 4.X...
+    Title = Downloading MSET: JPN 4.X...
+    set version=%region% 4.x
+    call :Download "https://dl.dropbox.com/s/8o86h3mnl643zc0/msetdg.bin?dl=0"
+    goto :EOF
+)
+if "%version%"=="2" (
+    echo Downloading JPN 6.X...
+    Title = Downloading MSET: JPN 6.X...
+    set version=%region% 6.x
+    call :Download "https://dl.dropbox.com/s/tvytnoqzrpvxwdc/msetdg.bin?dl=0"
+    goto :EOF
+)
+set test=%version%
+set /a test=%test%+1
+set /a test=%test%-1
+echo Wow... Are you an idiot? I told you to enter a number between 1 and 2... 
+@echo No, not a decimal, fraction or mixed fraction. HUSH!
+if not "%test%"=="%version%" call :you_are_an_idiot
+goto region_select
+
+:USA
+set region=USA
+echo.
+echo What version do you want? (1-2)
+echo.
+echo 1.) 4.x   2.) 6.x (2DS Users USE THIS OPTION!)
+echo.
+set version=
+set /p version=Version: %=%
+if "%version%"=="1" (
+    echo Downloading USA 4.X...
+    Title = Downloading MSET: USA 4.X...
+    set version=%region% 4.x
+    call :Download "https://dl.dropbox.com/s/0vrhdfvxpb5voh9/msetdg.bin?dl=0"
+    goto :EOF
+)
+if "%version%"=="2" (
+    echo Downloading USA 6.X...
+    Title = Downloading MSET: USA 6.X...
+    set version=%region% 6.x
+    call :Download "https://dl.dropbox.com/s/gazwh6o5a6dwlw2/msetdg.bin?dl=0"
+    goto :EOF
+)
+set test=%version%
+set /a test=%test%+1
+set /a test=%test%-1
+echo Wow... Are you an idiot? I told you to enter a number between 1 and 2... 
+@echo No, not a decimal, fraction or mixed fraction. HUSH!
+if not "%test%"=="%version%" call :you_are_an_idiot
+goto region_select
+
+
+:EUR
+set region=EUR
+echo.
+echo What version do you want? (1-2)
+echo.
+echo 1.) 4.x   2.) 6.x (2DS Users USE THIS OPTION!)
+echo.
+set version=
+set /p version=Version: %=%
+if "%version%"=="1" (
+    echo Downloading EUR 4.X...
+    Title = Downloading MSET: EUR 4.X...
+    set version=%region% 4.x
+    call :Download "https://dl.dropbox.com/s/1ab4x3citqylty0/msetdg.bin?dl=0"
+    goto :EOF
+)
+if "%version%"=="2" (
+    echo Downloading EUR 6.X...
+    Title = Downloading MSET: EUR 6.X...
+    set version=%region% 6.x
+    call :Download "https://dl.dropbox.com/s/yxqpdvfr6rfncjb/msetdg.bin?dl=0"
+    goto :EOF
+)
+set test=%version%
+set /a test=%test%+1
+set /a test=%test%-1
+echo Wow... Are you an idiot? I told you to enter a number between 1 and 2... 
+@echo No, not a decimal, fraction or mixed fraction. HUSH!
+if not "%test%"=="%version%" call :you_are_an_idiot
+goto region_select
+:CHN
+set region=CHN
+echo.
+echo What version do you want? (1-2)
+echo.
+echo 1.) 4.x   2.) 6.x (2DS Users USE THIS OPTION!)
+echo.
+set version=
+set /p version=Version: %=%
+if "%version%"=="1" (
+    echo Downloading CHN 4.X...
+    Title = Downloading MSET: CHN 4.X...
+    set version=%region% 4.x
+    call :Download "https://dl.dropbox.com/s/mslumpknhs157cc/msetdg.bin?dl=0"
+    goto :EOF
+)
+if "%version%"=="2" (
+    echo Downloading CHN 6.X...
+    Title = Downloading MSET: CHN 6.X...
+    set version=%region% 6.x
+    echo Sorry but I don't have this file :/ PM me it and it'll be added.
+    pause
+    REM call :Download "http:/blahblah"
+    goto :EOF
+)
+set test=%version%
+set /a test=%test%+1
+set /a test=%test%-1
+echo Wow... Are you an idiot? I told you to enter a number between 1 and 2... 
+@echo No, not a decimal, fraction or mixed fraction. HUSH!
+if not "%test%"=="%version%" call :you_are_an_idiot
+goto region_select
+
+
+:KOR
+set region=KOR
+echo.
+echo What version do you want? (1-2)
+echo.
+echo 1.) 4.x   2.) 6.x (2DS Users USE THIS OPTION!)
+echo.
+set version=
+set /p version=Version: %=%
+if "%version%"=="1" (
+    echo Downloading KOR 4.X...
+    Title = Downloading MSET: KOR 4.X...
+    set version=%region% 4.x
+    call :Download "https://dl.dropbox.com/s/uqpyjdjk9ia25ve/msetdg.bin?dl=0"
+    goto :EOF
+)
+if "%version%"=="2" (
+    echo Downloading KOR 6.X...
+    Title = Downloading MSET: KOR 6.X...
+    set version=%region% 6.x
+    call :Download "https://dl.dropbox.com/s/rqzm5s33tvg8huw/msetdg.bin?dl=0"
+    goto :EOF
+)
+set test=%version%
+set /a test=%test%+1
+set /a test=%test%-1
+echo Wow... Are you an idiot? I told you to enter a number between 1 and 2... 
+@echo No, not a decimal, fraction or mixed fraction. HUSH!
+if not "%test%"=="%version%" call :you_are_an_idiot
+goto region_select
+
+:TWN
+set region=TWN
+echo.
+echo What version do you want? (1-2)
+echo.
+echo 1.) 4.x   2.) 6.x (2DS Users USE THIS OPTION!)
+echo.
+set version=
+set /p version=Version: %=%
+if "%version%"=="1" (
+    echo Downloading TWN 4.X...
+    Title = Downloading MSET: TWN 4.X...
+    set version=%region% 4.x
+    call :Download "https://dl.dropbox.com/s/rf2nrguo74aie5o/msetdg.bin?dl=0"
+    goto :EOF
+)
+if "%version%"=="2" (
+    echo Downloading TWN 6.X...
+    Title = Downloading MSET: TWN 6.X...
+    set version=%region% 6.x
+    echo Sorry but I don't have this file :/ PM me it and it'll be added.
+    pause
+    REM call :Download "http:/blahblah"
+    goto :EOF
+)
+set test=%version%
+set /a test=%test%+1
+set /a test=%test%-1
+echo Wow... Are you an idiot? I told you to enter a number between 1 and 2... 
+@echo No, not a decimal, fraction or mixed fraction. HUSH!
+if not "%test%"=="%version%" call :you_are_an_idiot
+goto region_select
+
+:Download
+echo.
+echo Downloading file %1 ...
+if not "%2"=="" (
+    set saveto=%2
+) else (
+    set saveto="%CD%\%region%\%version%\msetdg.bin"
+    if not exist "%CD%\%region%\%version%" mkdir "%CD%\%region%\%version%"
+)
+
+bitsadmin /transfer "Package: %region% %version%" /download /priority high %1 %saveto%
+echo File saved as: %saveto%
+if not "%no_end%"=="true" (
+    echo Done! Press any key to exit.
+    pause >nul
+)
